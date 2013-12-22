@@ -46,7 +46,17 @@
 	-------------------------------------------------------------------------*/
 
 		public function displayPublishPanel(&$wrapper, $data = null, $error = null, $prefix = null, $postfix = null) {
-			return;
+			$label = Widget::Label($this->get('label'));
+            		$name = $this->get('element_name');
+            		
+            		$label->appendChild(
+            			new XMLElement('i', DateTimeObj::get(__SYM_DATETIME_FORMAT__, strtotime($row['creation_date_gmt'] . ' +00:00')))
+		        );
+	            	$label->appendChild(
+	            		Widget::Input("fields{$prefix}[{$name}]", $data['value'], 'hidden')
+	            	);
+	        
+            		$wrapper->appendChild($label);
 		}
 
 		public function checkPostFieldData($data, &$message, $entry_id=NULL){
