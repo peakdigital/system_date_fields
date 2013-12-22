@@ -45,26 +45,29 @@
 		Input:
 	-------------------------------------------------------------------------*/
 
-public function displayPublishPanel(&$wrapper, $data = null, $error = null, $prefix = null, $postfix = null) {
+		public function displayPublishPanel(&$wrapper, $data = null, $error = null, $prefix = null, $postfix = null, $entry_id = null) {
 			$label = Widget::Label($this->get('label'));
-            $span = new XMLElement('span', null, array('class' => 'frame'));
-            
-            $callback = Administration::instance()->getPageCallback();
-            
-            if (is_null($callback['context']['entry_id'])) {
-                    $span->setValue(__('Will be populated after saving this entry..'));
-                    $span->setAttribute('class', 'frame inactive');
-            } else {
-                    $span->appendChild(
-                            new XMLElement('i', DateTimeObj::get(__SYM_DATETIME_FORMAT__, strtotime($row['modification_date_gmt'] . ' +00:00')))
-                    );
-                    $span->appendChild(
-                            Widget::Input("fields{$prefix}[{$name}]", $data['value'], 'hidden')
-                    );
-            }
-            
-            $wrapper->appendChild($label);
-            $wrapper->appendChild($span);                      
+			$span = new XMLElement('span', null, array('class' => 'frame'));
+			
+			$callback = Administration::instance()->getPageCallback();
+			
+			$datefromentry = self::__dateFromEntryID($entry_id);
+			
+			if (is_null($callback['context']['entry_id'])) {
+				$span->setValue(__('Will be populated after saving this entry..'));
+				$span->setAttribute('class', 'frame inactive');
+			} else {
+				$span->appendChild(
+					new XMLElement('i', DateTimeObj::get(__SYM_DATETIME_FORMAT__, strtotime($datefromentry['modification_date_gmt'] . ' +00:00')))
+				);
+				$span->appendChild(
+					Widget::Input("fields{$prefix}[{$name}]", $data['value'], 'hidden')
+				);
+			}
+			
+			$wrapper->appendChild($label);
+			$wrapper->appendChild($span);                      
+		
 		}
 
 		public function checkPostFieldData($data, &$message, $entry_id=NULL){
