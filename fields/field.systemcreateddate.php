@@ -83,7 +83,7 @@
 		public function prepareTableValue($data, XMLElement $link=NULL, $entry_id=NULL) {
 			$row = self::__dateFromEntryID($entry_id);
 
-			$value = DateTimeObj::get(__SYM_DATE_FORMAT__, strtotime($row['creation_date_gmt'] . ' +00:00'));
+			$value = DateTimeObj::get(__SYM_DATETIME_FORMAT__, strtotime($row['creation_date_gmt'] . ' +00:00'));
 
 			return parent::prepareTableValue(array('value' => $value), $link);
 		}
